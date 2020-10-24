@@ -22,8 +22,7 @@ struct sdshdr {
 因为C字符并不记录自身的长度信息，所以每当需要获取C字符串的长度的时候，都需要进行遍历整个字符串。
 ##### 2. 杜绝缓冲区溢出 
 因为C字符串不记录当前字符串可用长度，所以当需要增长C字符串的时候，就需要提前进行扩容操作，否则则可能出现缓冲区溢出。
-![dbe3722d2921155601f9fb297af89c69.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p148)
-
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220516.png)
 而对于SDS来说，其保存了free空间，在增长字符串的时候，Redis会先检查SDS的空间是否能够满足要求，否则则会自动将SDS的空间扩容至所需大小
 ##### 3. 减少修改字符串时带来的内存重分配次数
 对于C字符串来说，每次增长或者缩短一个C字符串，都需要对这个C字符串的数组进行一次内存重分配的操作：
@@ -48,7 +47,7 @@ struct sdshdr {
 ##### 5. 兼容部分C字符串函数
 SDS也遵循C字符串以空字符结尾的惯例，这是为了让那些保存文本数据的SDS可以重用一部分C字符串的函数。
 
-![ccf31db080a3a961bf2de8f250a5450c.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p149)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220614.png)
 
 ## 链表
 ##### 链表的数据结构
@@ -89,7 +88,7 @@ Reids链表的特性：
 5. 多态：链表节点使用 `void*` 指针来保存节点值，所以链表可以用于保存各种不同类型的值
 
 ## 字典
-![adc29d046ae86e17965d1121f6a27e65.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p150)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220657.png)
 
 dict 为字典的结构
 dict中的ht属性是包含两个项的数组，数组中的每个项都是一个dict哈希表，一般情况下，字典只使用ht[0]哈希表，ht[1]哈希表只会在对ht[0]哈希表进行rehash时使用。
@@ -139,7 +138,7 @@ dictht则为字典所使用的hash表，table为哈希表的数组，size为哈�
 
 
 ## 跳跃表
-![2011f9252e2643f47ea54ee7baffcc4f.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p158)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220714.png)
 ##### 属性描述：
  1. header:指向跳跃表的表头节点，通过这个指针程序定位表头节点的时间复杂度就为O(1)
  2. tail:指向跳跃表的表尾节点,通过这个指针程序定位表尾节点的时间复杂度就为O(1)
@@ -172,14 +171,14 @@ typedef struct intset {
 每当我们要将一个新元素添加到整数集合里面，并且新元素的类型比整数集合现有元素的类型都要长时，整数集合会先进行升级，然后才能将新元素添加到整数集合里面。
 
 例如：目前有一个int16的数组，每个元素占用16位空间。
-![e2587bf744d65454e75bcc244ccdb805.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p159)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220755.png)
 当要新增一个int32的数字 65536的时候，就需要进行升级操作
 首先需要根据元素的数量和类型计算出需要再分配多少内存空间。
-![f3a1d325c6a6a98e215c2a9d5a1464f0.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p160)
-![1cb5fcc170a953b2236c8b90bcf2defd.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p161)
-![4d45438379cad7656698152c46b6b220.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p162)
-![569bad4bf7e935de45aaabf89cab16f7.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p163)
-![b2a3d8b90dc2ea922e866074c96b0524.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p164)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220814.png)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220823.png)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220833.png)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220844.png)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220852.png)
 
 
 
@@ -197,7 +196,7 @@ typedef struct intset {
 当一个列表键只包含少量的列表项，并且每个列表项要么就是小整数值，要么就是长度比较端的字符串，那么Redis就会使用压缩列表来做列表键的底层实现。
 
 压缩列表是由一系列特殊编码的连续内存块组成的顺序型数据结构；每个节点可以保存一个字节数组或者一个整数值。
-![16b2091f05c8d8c13cde059ee2a42427.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENNote/p247?hash=16b2091f05c8d8c13cde059ee2a42427)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220905.png)
  - zlbytes：存储一个无符号整数，固定四个字节长度，用于存储压缩列表所占用的字节，当重新分配内存的时候使用，不需要遍历整个列表来计算内存大小。
  - zltail：存储一个无符号整数，固定四个字节长度，代表指向列表尾部的偏移量，偏移量是指压缩列表的起始位置到指定列表节点的起始位置的距离。
  - zllen：压缩列表包含的节点个数，固定两个字节长度，源码中指出当节点个数大于2^16-2个数的时候，该值将无效，此时需要遍历列表来计算列表节点的个数。
@@ -205,7 +204,7 @@ typedef struct intset {
  - zlend：一字节长度固定值为255，用于表示列表结束。
  
  #### entry的结构如下
- ![2024e779800331b9e00a67786da3c501.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENNote/p247?hash=2024e779800331b9e00a67786da3c501)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220924.png)
 ##### previous length
 用于存储上一个节点的长度，因此压缩列表可以从尾部向头部遍历，即当前节点位置减去上一个节点的长度即得到上一个节点的起始位置。previous length的长度可能是1个字节或者是5个字节，如果上一个节点的长度小于254，则该节点只需要一个字节就可以表示前一个节点的长度了，如果前一个节点的长度大于等于254，则previous length的第一个字节为254，后面用四个字节表示当前节点前一个节点的长度。
 
@@ -213,7 +212,7 @@ typedef struct intset {
 节点的`encoding`属性记录了节点的`content`属性所保存数据的类型以及长度
  - 一字节，两字节或者五字节，值的最高位为00，01或者10的是字节数组编码：这种编码表示节点的content属性保存着字节数组，数组的长度由编码除去最高两位之后的其他位记录；
  - 一字节长，值的最高位以11开头的是整数编码：整数值的类型和长度由编码除去最高两位之后的其他位记录；
- ![d6567e106922ee337efa44403caa3b22.png](evernotecid://C67FD36D-5E52-4E6E-8DE0-B74A556D41DA/appyinxiangcom/24205207/ENResource/p167)
+![](http://qipju6j8k.hn-bkt.clouddn.com/20201024220950.png)
  
  ##### content
  节点的content属性负责保存节点的值，节点值可以是一个字节数组或者整数，值的类型和长度由节点的encoding属性决定。
