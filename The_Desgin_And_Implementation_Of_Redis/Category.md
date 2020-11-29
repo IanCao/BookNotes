@@ -6,3 +6,5 @@
  3. [数据库/RDB](03-DB_RDB.md)
  
  4. [AOF/事件/客户端](04-AOF_Event_Client.md)
+ 
+ 5. [复制/哨兵](05-Replication_Sentinel.md)
